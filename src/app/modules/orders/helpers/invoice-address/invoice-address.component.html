@@ -1,0 +1,26 @@
+<div class="row ">
+  <div class="col-md-5">
+    <div class="card my-4">
+      <div class="card-body">
+        <h5 class="card-title"><strong>From: </strong></h5>
+        <p> <strong>Name: </strong><span class="name"> MarWebTrade Center</span>
+        </p>
+        <p><strong>Address: </strong><span class="address">Bahnhofstr.15, Freiburg</span> </p>
+        <p><span class="address1"> 79111 Deutschland</span></p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2"></div>
+  <div class="col-md-5">
+    <div class="card my-4">
+      <div class="card-body">
+        <h5 class="card-title"><strong>For: </strong></h5>
+        <p> <strong>Name: </strong><span class="name"> {{order.invoiceAddress.name}}</span>
+        </p>
+        <p><strong>Address: </strong><span class="address">{{order.invoiceAddress.address}},
+            {{order.invoiceAddress.city}}</span> </p>
+        <p><span class="address1"> {{order.invoiceAddress.postalCode}}
+            {{order.invoiceAddress.country}}</span></p>
+      </div>
+    </div>
+  </div>

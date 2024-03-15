@@ -1,0 +1,61 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="row">
+    <div class="col-md-2">
+      <a *ngIf="vm.order.returnActive" class="btn btn-warning col-md-12 my-2"
+        [routerLink]="['/orders/support-return', vm.order._id]" role="button">
+        Return
+      </a>
+    </div>
+    <div class="col-md-6"></div>
+    <div class="col-md-2">
+      <a *ngIf="vm.order.extraPrice > 0 && vm.order.isPaid" class="btn btn-secondary col-md-12 my-2"
+        [routerLink]="['/orders/support-device', vm.order._id]" role="button">
+        Go to Device Card <fa-icon [icon]="faArrowRight"></fa-icon>
+      </a>
+    </div>
+    <div class="col-md-2">
+      <p>
+        <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/orders/support-delivery-note',vm.order._id]"
+          role="button">
+          Go to Delivery Note <fa-icon [icon]="faArrowRight"></fa-icon>
+        </a>
+      </p>
+    </div>
+  </div>
+  <h3><strong>Order {{vm.order._id}}</strong></h3>
+  <p class="mb-5">placed on {{vm.order.createdAt | date:'medium'}}</p>
+
+  <app-order-table [order]="vm.order" role="support" photo=true></app-order-table>
+
+  <div class="row mb-5">
+    <div class="col-md-5">
+      <app-shipping-address *ngIf="vm.order?.shippingAddress" [order]="vm.order">
+      </app-shipping-address>
+
+      <app-payment *ngIf="vm.order?.payment" [order]="vm.order">
+      </app-payment>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+      <div class="card my-4">
+        <div class="card-body">
+          <h5 class="card-title mb-4"><strong>Order Summary</strong></h5>
+          <p><strong class="subtotal">Items Subtotal: </strong> {{vm.order.itemsPrice | currency: 'EUR'}}</p>
+          <p><strong class="shipping">Shipping Fee: </strong> {{vm.order.shippingPrice | currency: 'EUR'}} </p>
+          <p *ngIf="vm.order.primePrice > 0"><strong class="prime">Premium Subscription Fee:</strong> €70.00 </p>
+          <p *ngIf="vm.order.franchisePrice > 0"><strong class="franchise">Franchising System Fee: </strong> €500.00
+          </p>
+          <p *ngIf="vm.order.voucher && vm.order.voucher !== '00' "><strong class="voucher">Loyalty Points Voucher:
+            </strong> - €10.00</p>
+          <p><strong class="tax">Tax Rate (15%): </strong> {{vm.order.taxPrice | currency: 'EUR'}}</p>
+          <p *ngIf="!vm.order.isPaid"><strong>TOTAL: </strong><span class="price">{{vm.order.totalPrice |
+              currency:'EUR'}}</span></p>
+          <p *ngIf="vm.order.isPaid" class="text-success"><strong>TOTAL: </strong>
+            <span class="price">{{vm.order.totalPrice | currency: 'EUR'}}</span>
+          </p>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+</ng-container>

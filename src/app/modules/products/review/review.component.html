@@ -1,0 +1,52 @@
+<div class="row justify-content-center my-5">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card border-info my-3">
+        <div class="card-header">
+          <h5 class="text-center"><strong>Product Reviews</strong></h5>
+        </div>
+        <div class="card-body border-info" *ngIf="productReviews && productReviews.length === 0">
+          <h6>No Reviews for this Product</h6>
+        </div>
+        <div *ngIf="productReviews && productReviews.length > 0">
+          <div class="card-body" *ngFor="let review of productReviews">
+            <div class="row">
+              <div class="col-md-7">
+                <p> {{review.userName}}</p>
+                <app-rating [value]="review.rating"></app-rating>
+              </div>
+              <div class="col-md-5 mb-2">
+                <p> {{review.createdAt.substring(0, 10)}}</p>
+              </div>
+            </div>
+            <p>{{review.comment}}</p>
+            *********************
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+      <h5><strong>Write a Customer Review:</strong></h5>
+      <p>*** Only one Review is allowed</p>
+      <form #fReview="ngForm" (ngSubmit)="createReview(fReview)">
+        <label for="rating">Rating:</label>
+        <select name="rating" id="rating" [(ngModel)]="ngSelectRating" class="form-control form-select ">
+          <option value="Select">Select..</option>
+          <option value="1">1 - Poor</option>
+          <option value="2">2 - Fair</option>
+          <option value="3">3 - Good</option>
+          <option value="4">4 - Very Good</option>
+          <option value="5">5 - Excellent</option>
+        </select>
+        <label for="comment">Comment:</label>
+        <textarea class="form-control " id="comment" name="comment" required [(ngModel)]="comment"></textarea>
+        <button type="submit" class="btn btn-secondary my-3"
+          [disabled]="fReview.value.rating === 'Select' || !fReview.value.comment || fReview.value.comment && fReview.value.comment.trim() === ''">
+          Submit Review
+        </button>
+      </form>
+    </div>
+  </div>
+  <div class="col-md-1"></div>
+</div>

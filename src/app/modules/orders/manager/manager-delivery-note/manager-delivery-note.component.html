@@ -1,0 +1,78 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="row">
+    <div class="col-md-8">
+      <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/orders/manager-order',vm.order._id]" role="button">
+          Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+        </a>
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/orders/manager-invoice',vm.order._id]"
+          role="button">
+          Go to Invoice <fa-icon [icon]="faArrowRight"></fa-icon>
+        </a>
+      </p>
+    </div>
+  </div>
+  <h3 class="mb-5">Delivery Note to Order {{vm.order._id}}</h3>
+
+  <div class="row mb-5">
+    <div class="col-md-5">
+      <app-shipping-address *ngIf="vm.order?.shippingAddress" [order]="vm.order">
+      </app-shipping-address>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+      <div class="card my-4">
+        <div class="card-body">
+          <h5 class="card-title mb-4 pb-4"><strong>Delivery Details</strong></h5>
+          <p> <strong>Type of Shipping: </strong><span *ngIf="vm.order.shippingPrice === 5" class="shipping">
+              Standard </span>
+            <span *ngIf="vm.order.shippingPrice === 10" class="shipping">
+              Fastest
+            </span>
+            <span *ngIf="vm.order.shippingPrice === 0" class="shipping">
+              Free
+            </span>
+          </p>
+          <p><strong>Shipping Fee: </strong> <span class="price">{{vm.order.shippingPrice | currency:
+              'EUR' }} </span> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Ordered Product</th>
+            <th>Quantity</th>
+            <th>Gift Package</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item  of vm.order.orderItems">
+            <td><a [routerLink]="['/products/product', item._id]"><span class="cart-list-image"><img
+                    [src]="item.imageUrl" title="View Product"></span></a></td>
+            <td>{{item.name}}</td>
+            <td>{{item.quantity}}</td>
+            <td>
+              <fa-icon [icon]="faCheck" class="text-success" *ngIf="item.gift === 5"></fa-icon>
+              <fa-icon [icon]="faTimes" class="text-danger" *ngIf="item.gift === 0"></fa-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</ng-container>

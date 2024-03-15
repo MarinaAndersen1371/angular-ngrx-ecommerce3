@@ -1,0 +1,138 @@
+<div class="row justify-content-center">
+  <div class="col-8 mt-4">
+    <h4><strong>Add Product</strong></h4>
+    <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+      <div class="form-group my-2">
+        <label for="name">Product Name:</label>
+        <input type="text" required formControlName="name" class="form-control" id="name" placeholder="Product Name">
+        <div
+          *ngIf="productForm.get('name')?.invalid && (productForm.get('name')?.dirty || productForm.get('name')?.touched)">
+          <div class="text-danger" *ngIf="productForm.get('name')?.errors?.required">
+            Name is required
+          </div>
+          <div class="text-danger" *ngIf="productForm.get('name')?.errors?.minlength">
+            Name must be at least 2 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-2">
+        <label for="brand">Brand:</label>
+        <input type="text" required formControlName="brand" class="form-control" id="brand" placeholder="Brand">
+        <div
+          *ngIf="productForm.get('brand')?.invalid && (productForm.get('brand')?.dirty || productForm.get('brand')?.touched)">
+          <div class="text-danger" *ngIf="productForm.get('brand')?.errors?.required">
+            Brand is required
+          </div>
+          <div class="text-danger" *ngIf="productForm.get('brand')?.errors?.minlength">
+            Brand must be at least 2 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-2">
+        <label for="category">Category:</label>
+        <select formControlName="category" id="category" class="form-control form-select" required>
+          <option disabled value="">Select...</option>
+          <option value="Audio">Audio</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Smart Home">Smart Home</option>
+        </select>
+        <div
+          *ngIf="productForm.get('category')?.invalid && (productForm.get('category')?.dirty || productForm.get('category')?.touched)">
+          <div class="text-danger" *ngIf="productForm.get('category')?.errors?.required">
+            Category required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-2">
+        <label for="description">Description:</label>
+        <textarea class="form-control" formControlName="description" id="description" required
+          placeholder="Description"></textarea>
+        <div
+          *ngIf="productForm.get('description')?.invalid && (productForm.get('description')?.dirty || productForm.get('description')?.touched)">
+          <div class="text-danger" *ngIf="productForm.get('description')?.errors?.required">
+            Description is required
+          </div>
+          <div class="text-danger" *ngIf="productForm.get('description')?.errors?.minlength">
+            Description must be at least 2 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="pricePurchase">Purchase Price:</label>
+        <input type="text" formControlName="pricePurchase" id="pricePurchase" required class="form-control">
+        <div class="text-danger"
+          *ngIf="productForm.get('pricePurchase')?.invalid && (productForm.get('pricePurchase')?.dirty || productForm.get('pricePurchase')?.touched)">
+          <div *ngIf="productForm.get('pricePurchase')?.errors?.required">
+            Purchase Price is required.
+          </div>
+          <div *ngIf="productForm.get('pricePurchase')?.errors?.pattern">
+            Please enter a valid Purchase Price format with up to 2 decimal places.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="price">Price:</label>
+        <input type="text" formControlName="price" required class="form-control" id="price">
+        <div class="text-danger"
+          *ngIf="productForm.get('price')?.invalid && (productForm.get('price')?.dirty || productForm.get('price')?.touched)">
+          <div *ngIf="productForm.get('price')?.errors?.required">
+            Price is required.
+          </div>
+          <div *ngIf="productForm.get('price')?.errors?.pattern">
+            Please enter a valid Price format with up to 2 decimal places.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="quantity">Quantity:</label>
+        <input type="text" required class="form-control" formControlName="quantity" id="quantity">
+        <div class="text-danger"
+          *ngIf="productForm.get('quantity')?.invalid && (productForm.get('quantity')?.dirty || productForm.get('quantity')?.touched)">
+          <div *ngIf="productForm.get('quantity')?.errors?.required">
+            Quantity is required.
+          </div>
+          <div *ngIf="productForm.get('quantity')?.errors?.pattern">
+            Please enter a valid format.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6 my-3">
+        <div class="row">
+          <div class="col-10">Extra Device Protection:</div>
+          <div class="col-2 form-check">
+            <label>
+              <input type="checkbox" formControlName="extra" id="extra" class="form-check-input">
+            </label>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group my-2">
+        <label for="imageUrl">Image Url:</label>
+        <input type="text" formControlName="imageUrl" required class="form-control" id="imageUrl"
+          placeholder="Example: assets/images/sample.jpg">
+        <div
+          *ngIf="productForm.get('imageUrl')?.invalid && (productForm.get('imageUrl')?.dirty || productForm.get('imageUrl')?.touched)">
+          <div class="text-danger" *ngIf="productForm.get('imageUrl')?.errors?.required">
+            Image Url is required
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary m-3" [routerLink]="['/products/admin-products']">
+        <fa-icon [icon]="faHome"></fa-icon> Back To List
+      </button>
+      <button class="btn btn-success m-3" type="submit" [disabled]="!productForm.valid">Add Product <fa-icon
+          [icon]="faCartPlus">
+        </fa-icon></button>
+    </form>
+  </div>
+</div>

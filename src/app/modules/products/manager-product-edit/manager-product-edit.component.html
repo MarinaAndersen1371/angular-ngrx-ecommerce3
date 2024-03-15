@@ -1,0 +1,118 @@
+<div class="row justify-content-center">
+  <div class="col-8 my-4">
+    <h4>Edit Product</h4>
+    <form #f="ngForm" (ngSubmit)="onSubmit()">
+      <div class="form-group my-2">
+        <label for="name">Product Name:</label>
+        <input type="text" class="form-control" name="name" required [(ngModel)]="model.name" id="name" #name="ngModel">
+        <div *ngIf="name.dirty || name.touched">
+          <div class="text-danger" *ngIf="name.errors?.required">
+            Product Name required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-2">
+        <label for="brand">Brand:</label>
+        <input type="text" class="form-control" name="brand" required [(ngModel)]="model.brand" id="brand"
+          #brand="ngModel">
+        <div *ngIf="brand.dirty || brand.touched">
+          <div class="text-danger" *ngIf="brand.errors?.required">
+            Brand required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-2">
+        <label for="category">Category:</label>
+        <select name="category" id="category" [(ngModel)]="model.category" class="form-control form-select"
+          #category="ngModel" required>
+          <option disabled value="Select...">Select...</option>
+          <option value="Audio">Audio</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Smart Home">Smart Home</option>
+        </select>
+        <div *ngIf="category.invalid && (category.dirty || category.touched)">
+          <div class="text-danger" *ngIf="category.errors?.required">
+            Category required
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-2">
+        <label for="description">Description:</label>
+        <textarea class="form-control" id="description" name="description" required [(ngModel)]="model.description"
+          #description="ngModel" minlength="10"></textarea>
+        <div class="text-danger" *ngIf="description.invalid && (description.dirty || description.touched)">
+          <div *ngIf="description.errors?.required">Description required</div>
+          <div *ngIf="description.errors?.['minlength']">
+            Description must be at least 10 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="pricePurchase">Purchase Price:</label>
+        <input type="text" step="0.01" class="form-control" name="pricePurchase" required
+          [(ngModel)]="model.pricePurchase" id="pricePurchase" #pricePurchase="ngModel"
+          pattern="^[0-9]+(\.[0-9]{1,2})?$">
+        <div class="text-danger" *ngIf="pricePurchase.invalid && (pricePurchase.dirty || pricePurchase.touched)">
+          <div *ngIf="pricePurchase.errors?.required">
+            Purchase Price required </div>
+          <div *ngIf="pricePurchase.errors?.['pattern']">Invalid Price format </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="price">Price:</label>
+        <input type="text" step="0.01" class="form-control" name="price" required [(ngModel)]="model.price"
+          #price="ngModel" id="price" pattern="^[0-9]+(\.[0-9]{1,2})?$">
+        <div class="text-danger" *ngIf="price.invalid && (price.dirty || price.touched)">
+          <div *ngIf="price.errors?.required">
+            Price required</div>
+          <div *ngIf="price.errors?.['pattern']">Invalid Price format </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="quantity">Quantity:</label>
+        <input type="text" class="form-control" name="quantity" required [(ngModel)]="model.quantity" id="quantity"
+          #quantity="ngModel" pattern="[0-9]*" inputmode="numeric">
+        <div class="text-danger" *ngIf="quantity.invalid && (quantity.dirty || quantity.touched)">
+          <div *ngIf="quantity.errors?.required">
+            Quantity required </div>
+          <div *ngIf="quantity.errors?.['pattern']">
+            Invalid Data </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6 my-2">
+        <div class="row">
+          <div class="col-10">Extra Device Protection:</div>
+          <div class="col-2 form-check">
+            <input type="checkbox" [checked]="model.extra" (change)="model.extra = !model.extra" name="extra"
+              class="form-check-input">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label for="imageUrl">Image Url:</label>
+        <input type="text" class="form-control" id="imageUrl" required name="imageUrl" [(ngModel)]="model.imageUrl"
+          #imageUrl="ngModel">
+        <div *ngIf="imageUrl.dirty || imageUrl.touched">
+          <div class="text-danger" *ngIf="imageUrl.errors?.required">
+            Image Url required
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-success" [routerLink]="['/products/manager-products']">
+        <fa-icon [icon]="faArrowLeft"></fa-icon> Back To List </button>
+      <button class="btn btn-warning mx-2" [disabled]="f.invalid" type="submit">Edit Product
+        <fa-icon [icon]="faEdit">
+        </fa-icon>
+      </button>
+    </form>
+  </div>
+</div>

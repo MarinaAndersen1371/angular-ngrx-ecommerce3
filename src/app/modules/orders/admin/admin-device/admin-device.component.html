@@ -1,0 +1,61 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="row">
+    <div class="col-md-10">
+      <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+    </div>
+    <div class="col-md-2">
+      <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/orders/admin-order',vm.order._id]" role="button">
+        Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+      </a>
+    </div>
+  </div>
+  <h5 class="mb-5"><strong>Extra Device Protection Card # {{vm.order._id}}</strong></h5>
+  <app-invoice-address *ngIf="vm.order?.invoiceAddress" [order]="vm.order">
+  </app-invoice-address>
+
+  <div class="my-5">
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+          <th class="device">Device</th>
+          <th>Quantity</th>
+          <th class="cover">Cover Description</th>
+          <th>Price/Item</th>
+          <th>Total</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item  of vm.order.orderItems">
+          <ng-container *ngIf="item.extra1 + item.extra2 > 0">
+            <td><a [routerLink]="['/products/product', item._id]" title="View Product">{{item.name}}</a></td>
+            <td>{{item.quantity}}</td>
+            <td>
+              <span *ngIf="item.extra1 > 0">
+                <p><strong>1-year Extra Device Protection:</strong></p>
+                <p>This cover protects your product from accident mechanical and electrical breakdowns damage from
+                  the purchase (from the day you receive your product) for 1 year.</p>
+              </span>
+              <span *ngIf="item.extra2 > 0">
+                <p><strong>2-year Extra Device Protection:</strong></p>
+                <p>Up to 2 years of coverage against accidental damage (from the day you receive your product).</p>
+              </span>
+            </td>
+            <td>
+              <span *ngIf="item.extra1 > 0">€4.00</span>
+              <span *ngIf="item.extra2 > 0">€5.00</span>
+            </td>
+            <td>{{
+              (item.extra1 + item.extra2) * item.quantity | currency: 'EUR'}}
+            </td>
+            <td>
+              <span *ngIf="!vm.order.isExtra">Not Active</span>
+              <span *ngIf="vm.order.isExtra" class="text-success">Active from
+                {{vm.order.deliveredAt | date}}</span>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

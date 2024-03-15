@@ -1,0 +1,232 @@
+<ng-container>
+  <form [formGroup]="cartForm" (ngSubmit)="onSubmit()">
+    <p class="text-danger my-2">Please fill out the form below to complete your purchase</p>
+
+    <div class="row">
+
+      <div class="col-md-4">
+        <h5><strong>Shipping Address</strong></h5>
+
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" formControlName="name" required id="name" class="form-control" placeholder="Enter Name">
+          <div *ngIf="cartForm.get('name')?.invalid && (cartForm.get('name')?.dirty || cartForm.get('name')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('name')?.errors?.required">
+              First Name is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('name')?.errors?.minlength">
+              First Name must be at least 2 characters long.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address:</label>
+          <input type="text" formControlName="address" required id="address" class="form-control"
+            placeholder="Enter Address">
+          <div
+            *ngIf="cartForm.get('address')?.invalid && (cartForm.get('address')?.dirty || cartForm.get('address')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('address')?.errors?.required">
+              Address is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('address')?.errors?.minlength">
+              Address must be at least 2 characters long.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="city">City:</label>
+          <input type="text" formControlName="city" required id="city" class="form-control" placeholder="Enter City">
+          <div *ngIf="cartForm.get('city')?.invalid && (cartForm.get('city')?.dirty || cartForm.get('city')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('city')?.errors?.required">
+              City is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('city')?.errors?.minlength">
+              City must be at least 2 characters long.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="postalCode">Postal Code:</label>
+          <input type="text" formControlName="postalCode" required id="postalCode" class="form-control"
+            placeholder="Enter Postal Code">
+          <div
+            *ngIf="cartForm.get('postalCode')?.invalid && (cartForm.get('postalCode')?.dirty || cartForm.get('postalCode')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('postalCode')?.errors?.required">
+              Postal Code is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('postalCode')?.errors?.minlength">
+              Postal Code must be at least 4 characters long.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="country">Country:</label>
+          <input type="text" formControlName="country" required id="country" class="form-control"
+            placeholder="Enter Country">
+          <div
+            *ngIf="cartForm.get('country')?.invalid && (cartForm.get('country')?.dirty || cartForm.get('country')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('country')?.errors?.required">
+              Country is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('country')?.errors?.minlength">
+              Country must be at least 2 characters long.
+            </div>
+          </div>
+        </div>
+
+        <h5 class="my-2"><strong>Choose Shipping type</strong></h5>
+        <div class="form-group">
+          <label for="standardRadio">
+            <p> <input type="radio" formControlName="delivery" id="standardRadio" required value="Standard"
+                class="mx-2">
+              Standard
+              Delivery / €5.00 <br>
+              (on total amount over $800 Standard Delivery is free)</p>
+          </label>
+          <label for="fastestRadio">
+            <p><input type="radio" formControlName="delivery" id="fastestRadio" required value="Fastest" class="mx-2">
+              Fastest
+              Delivery
+              / €10.00
+              <br>(within 24 hours)
+            </p>
+          </label>
+        </div>
+      </div>
+
+
+      <div class="col-md-2">
+      </div>
+
+      <div class="col-md-4">
+        <h5><strong>Invoice Address</strong></h5>
+
+        <div class="form-group">
+          <label for="nameInvoice">Name:</label>
+          <input type="text" formControlName="nameInvoice" required id="nameInvoice" class="form-control"
+            placeholder="Enter Name">
+          <div
+            *ngIf="cartForm.get('nameInvoice')?.invalid && (cartForm.get('nameInvoice')?.dirty || cartForm.get('nameInvoice')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('nameInvoice')?.errors?.required">
+              Name is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('nameInvoice')?.errors?.minlength">
+              Name must be at least 2 characters long.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="addressInvoice">Address:</label>
+          <input type="text" formControlName="addressInvoice" required id="addressInvoice" class="form-control"
+            placeholder="Enter Address">
+          <div
+            *ngIf="cartForm.get('addressInvoice')?.invalid && (cartForm.get('addressInvoice')?.dirty || cartForm.get('addressInvoice')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('addressInvoice')?.errors?.required"> Address is
+              required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('addressInvoice')?.errors?.minlength"> Address must be
+              at least 2 characters long.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cityInvoice">City:</label>
+          <input type="text" formControlName="cityInvoice" required id="cityInvoice" class="form-control"
+            placeholder="Enter City">
+          <div
+            *ngIf="cartForm.get('cityInvoice')?.invalid && (cartForm.get('cityInvoice')?.dirty || cartForm.get('cityInvoice')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('cityInvoice')?.errors?.required">
+              City is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('cityInvoice')?.errors?.minlength">
+              City must be at least 2 characters long.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="postalCodeInvoice">Postal Code:</label>
+          <input type="text" formControlName="postalCodeInvoice" required id="postalCodeInvoice" class="form-control"
+            placeholder="Enter Postal Code">
+          <div
+            *ngIf="cartForm.get('postalCodeInvoice')?.invalid && (cartForm.get('postalCodeInvoice')?.dirty || cartForm.get('postalCodeInvoice')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('postalCodeInvoice')?.errors?.required">
+              Postal Code is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('postalCodeInvoice')?.errors?.minlength">
+              Postal Code must be at least 4 characters long.
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="countryInvoice">Country:</label>
+          <input type="text" formControlName="countryInvoice" required id="countryInvoice" class="form-control"
+            placeholder="Enter Country">
+          <div
+            *ngIf="cartForm.get('countryInvoice')?.invalid && (cartForm.get('countryInvoice')?.dirty || cartForm.get('countryInvoice')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('countryInvoice')?.errors?.required">
+              Country is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('countryInvoice')?.errors?.minlength">
+              Country must be at least 2 characters long.
+            </div>
+          </div>
+        </div>
+
+        <h5 class="mt-2"><strong>Payment</strong></h5>
+        <div class="form-group">
+          <p>Payment Method:<br>
+            <label for="paypalRadio">
+              <input type="radio" formControlName="method" required value="PayPal" id="paypalRadio" class="mx-2"> PayPal
+            </label>
+            <label for="visaRadio">
+              <input type="radio" formControlName="method" required value="Visa" id="visaRadio" class="mx-2"> Visa
+            </label>
+            <label for="mastercardRadio">
+              <input type="radio" formControlName="method" required class="mx-2" value="MasterCard"
+                id="mastercardRadio"> MasterCard
+            </label>
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label for="account">Card Number:</label>
+          <input type="text" formControlName="account" required id="account" class="form-control"
+            placeholder="Enter Card Number">
+          <div
+            *ngIf="cartForm.get('account')?.invalid && (cartForm.get('account')?.dirty || cartForm.get('account')?.touched)">
+            <div class="text-danger" *ngIf="cartForm.get('account')?.errors?.required">
+              Card Number is required
+            </div>
+            <div class="text-danger" *ngIf="cartForm.get('account')?.errors?.minlength">
+              Cart Number must be at least 10 characters long.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row my-3">
+        <div class="col-md-3"></div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-secondary col-12" [routerLink]="['/users/user-cart', _id]"
+            routerLinkActive="router-link-active">
+            <fa-icon [icon]="faArrowLeft"></fa-icon> Go Back to Cart
+          </button>
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-secondary col-12" [disabled]="!cartForm.valid">
+            Proceed to Checkout <fa-icon [icon]="faArrowRight"></fa-icon>
+          </button>
+        </div>
+        <div class="col-md-5"></div>
+      </div>
+    </div>
+  </form>
+</ng-container>

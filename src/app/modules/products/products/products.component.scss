@@ -1,0 +1,16 @@
+.topProduct {
+  img {
+    height: 220px;
+    padding: 10px;
+    margin: 25px;
+    border-radius: 50%;
+    margin-left: 39%;
+  }
+  background-color: #a9a9a9 !important;
+}
+
+@media (max-width: 736px) {
+  .topProduct {
+    display: none;
+  }
+}

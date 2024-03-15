@@ -1,0 +1,103 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="row">
+    <div class="col-md-8">
+      <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/orders/manager-order',vm.order._id]" role="button">
+          Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+        </a>
+      </p>
+    </div>
+    <div class="col-md-2">
+      <p>
+        <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/orders/manager-delivery-note',vm.order._id]"
+          role="button">
+          Go to Delivery Note <fa-icon [icon]="faArrowRight"></fa-icon>
+        </a>
+      </p>
+    </div>
+  </div>
+  <h3 class="mb-5">Invoice {{vm.order._id}}</h3>
+  <app-invoice-address *ngIf="vm.order?.invoiceAddress" [order]="vm.order">
+  </app-invoice-address>
+
+  <table class="table table-hover text-center my-5">
+    <thead>
+      <tr>
+        <th>Ordered Product</th>
+        <th>Quantity</th>
+        <th>Price/Item</th>
+        <th>Discount/ Item</th>
+        <th>Warranty/ Item</th>
+        <th *ngIf="vm.order.extraPrice > 0">Protection/ Item</th>
+        <th *ngIf="vm.order.giftPrice > 0">Gift Package</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item  of vm.order.orderItems">
+        <td>{{item.name}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.price | currency:
+          'EUR'}}</td>
+        <td>
+          <span *ngIf="item.discount > 0">-{{(item.price *
+            item.discount) | currency:
+            'EUR'}}</span>
+          <span *ngIf="item.discount === 0">€0.00</span>
+        </td>
+        <td>{{(item.price * item.warranty) | currency:
+          'EUR'}}</td>
+        <td>
+          <span *ngIf="vm.order.extraPrice > 0 && (!vm.order.isPaid || (item.extra1 + item.extra2) === 0)">
+            {{(item.extra1 + item.extra2) | currency:
+            'EUR'}}</span>
+          <span *ngIf="vm.order.extraPrice > 0 && vm.order.isPaid && (item.extra1 +  item.extra2) > 0"><a
+              title="View Device Protection" class="text-info"
+              [routerLink]="['/orders/manager-device',vm.order._id]"><strong>{{(+item.extra1 +
+                +item.extra2) |
+                currency:
+                'EUR'}}</strong></a></span>
+        </td>
+        <td *ngIf="vm.order.giftPrice">{{item.gift | currency:
+          'EUR'}}</td>
+        <td>{{ (item.price * item.quantity -
+          item.price * item.quantity * item.discount +
+          item.price * item.quantity * item.warranty +
+          (item.extra1 + item.extra2) * item.quantity +
+          item.gift) | currency: 'EUR'}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row my-3">
+    <div class="col-md-5">
+      <app-payment *ngIf="vm.order?.payment" [order]="vm.order">
+      </app-payment>
+    </div>
+    <div class="col-md-1"></div>
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-4"><strong>Invoice Summary</strong></h5>
+          <p><strong class="subtotal">Items Subtotal: </strong> {{vm.order.itemsPrice | currency: 'EUR'}}</p>
+          <p><strong class="shipping">Shipping Fee: </strong> {{vm.order.shippingPrice | currency: 'EUR'}} </p>
+          <p *ngIf="vm.order.primePrice > 0"><strong class="prime">Premium Subscription Fee:</strong>
+            €70.00 </p>
+          <p *ngIf="vm.order.franchisePrice > 0"><strong class="franchise">Franchising System Fee:
+            </strong> €500.00 </p>
+          <p *ngIf="vm.order.voucher && vm.order.voucher !== '00' "><strong class="voucher">Loyalty Points
+              Voucher: </strong> - €10.00</p>
+          <p><strong class="tax">Tax Rate (15%): </strong> {{vm.order.taxPrice | currency: 'EUR'}}</p>
+          <p [ngClass]="{ 'text-success': vm.order.isPaid }"><strong>TOTAL: </strong><span
+              class="price">{{vm.order.totalPrice | currency:
+              'EUR'}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</ng-container>
