@@ -1,0 +1,86 @@
+<div class="row" *ngIf="order">
+  <div class="col-md-10">
+    <p class="my-3">Order placed on {{order.createdAt | date:'medium'}}</p>
+  </div>
+
+  <div class="col-md-2">
+    <a class="btn btn-secondary col-md-12 my-2" [routerLink]="getOrderLink(order._id)"> Go to Order <fa-icon
+        [icon]="faArrowRight"></fa-icon> </a>
+  </div>
+</div>
+
+<h3><strong>Return {{order._id}}</strong></h3>
+<p>Status: <span *ngIf="!order.returnClosed" class="text-danger">Active</span> <span *ngIf="order.returnClosed"
+    class="text-info">Closed</span></p>
+
+<table class="table table-hover text-center">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Ordered Product</th>
+      <th>Quantity</th>
+      <th>Price/Item</th>
+      <th>Discount/ Item</th>
+      <th>Warranty/ Item</th>
+      <th>Protection/ Item</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item  of order.orderItems">
+      <th><span class="cart-list-image"><img [src]="item.imageUrl"></span></th>
+      <td>{{item.name}}</td>
+      <td>{{item.quantity}}</td>
+      <td>{{item.price | currency:
+        'EUR'}}</td>
+      <td>
+        <span *ngIf="item.discount > 0">-{{(item.price *
+          item.discount) | currency:
+          'EUR'}}</span>
+        <span *ngIf="item.discount === 0">€0.00</span>
+      </td>
+      <td>{{(item.price * item.warranty) | currency:
+        'EUR'}}</td>
+      <td>{{(item.extra1 + item.extra2) | currency:
+        'EUR'}}</td>
+      <td>{{ (item.price * item.quantity -
+        item.price * item.quantity * item.discount +
+        item.price * item.quantity * item.warranty + (item.extra1 + item.extra2) * item.quantity) |
+        currency: 'EUR'}}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="row">
+  <div class="col-md-4">
+    <div *ngIf="order.returnReceived && order.returnReceivedAt" class="card border-success my-1">
+      <div class="card-header">Return has been received on {{order.returnReceivedAt | date:'medium'}}</div>
+    </div>
+    <div *ngIf="order.refund && order.refundAt" class="card border-success my-3">
+      <div class="card-header">Refund has been paid
+        {{order.refundAt | date:'medium'}}</div>
+    </div>
+  </div>
+
+  <div class="col-md-4"></div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <p><strong class="subtotal">Items Subtotal: </strong> {{order.itemsPriceReturn | currency: 'EUR'}}
+        </p>
+        <p><strong class="shipping">Shipping Fee: </strong> {{order.shippingPriceReturn | currency: 'EUR'}}
+        </p>
+        <p *ngIf="order.voucher && order.voucher !== '00' "><strong class="voucher">Loyalty Points Voucher:
+          </strong> - €10.00</p>
+        <p><strong class="tax">Tax Rate (15%): </strong> {{order.taxPriceReturn | currency: 'EUR'}}</p>
+        <p [ngClass]="{'text-success' : order.refund}"><strong>TOTAL:</strong>
+          <span class="price">{{order.totalPriceReturn | currency: 'EUR'}}</span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <p>* There is no Refund for Gift Package, Premium or Franchise Subscriptions</p>
+  <p>** There is no Shipping Fee Refund for already dispatched Orders</p>
+</div>

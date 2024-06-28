@@ -1,0 +1,110 @@
+<div class="row my-3">
+  <div class="col-md-6">
+    <a class="btn btn-secondary" *ngIf="getOrdersLink().length" [routerLink]="getOrdersLink()" role="button">
+      <fa-icon [icon]="faArrowLeft"></fa-icon>
+    </a>
+    <h3 class="my-3"><strong>Update Order Status</strong></h3>
+  </div>
+  <div class="col-md-6">
+    <h5>Order: {{order._id}}</h5>
+    <h5>placed on: {{order.createdAt | date:'medium'}}</h5>
+    <h5>Customer Name: {{order.user && order.user.firstName}} {{order.user &&
+      order.user.lastName}}</h5>
+  </div>
+</div>
+
+<div class="row my-5">
+  <div class="col-md-6">
+    <h5><strong>Order Status:</strong></h5>
+    <div class="card my-3">
+      <span
+        [ngClass]="{'card-header': true, 'border-success': order.isPaid && order.paidAt, 'border-danger': !order.isPaid}">
+        <ng-container *ngIf="order.isPaid && order.paidAt; else notPaid">Order has been paid on
+          {{order.paidAt | date:'medium'}}</ng-container>
+        <ng-template #notPaid>Order is not paid</ng-template>
+      </span>
+    </div>
+
+    <div class="card my-3">
+      <span
+        [ngClass]="{'card-header': true,'border-success': order.invoiceSent && order.invoiceAt, 'border-danger': !order.invoiceSent}">
+        <ng-container *ngIf="order.invoiceSent && order.invoiceAt; else notSent">Invoice has been sent on
+          {{order.invoiceAt | date:'medium'}}</ng-container>
+        <ng-template #notSent>Invoice is not sent</ng-template>
+      </span>
+      <button type="button" *ngIf="role !== 'support'" class="btn btn-secondary col-12 my-3" (click)="sendInvoice()"
+        [disabled]="!order.isPaid || order.invoiceSent || order.returnActive">
+        Mark Invoice as sent
+      </button>
+    </div>
+
+    <h5 class="mt-5"><strong>Return Status:</strong></h5>
+    <div class="card my-3" *ngIf="order.returnActive">
+      <span
+        [ngClass]="{'card-header': true,'border-success': order.refund && order.refundAt, 'border-danger': !order.refund}">
+        <ng-container *ngIf="order.refund && order.refundAt; else notPaid">Refund has been paid on
+          {{order.refundAt | date:'medium'}}</ng-container>
+        <ng-template #notPaid>Refund is not paid</ng-template>
+      </span>
+      <button type="button" class="btn btn-secondary col-12 my-3" (click)="refundPaid()"
+        [disabled]="order.isPaid && order.isSent && !order.returnReceived || !order.isPaid || order.refund">
+        Mark Refund as paid
+      </button>
+    </div>
+
+    <div *ngIf="!order.returnActive" class="card-header  border-success my-3">No Return for this Order
+    </div>
+
+    <div class="card my-3" *ngIf="order.returnActive">
+      <span
+        [ngClass]="{'card-header': true, 'border-success': order.returnClosed, 'border-danger': !order.returnClosed}">
+        <ng-container *ngIf="order.returnClosed; else closed">Return is closed</ng-container>
+        <ng-template #closed>Return is active</ng-template>
+      </span>
+      <button type="button" class="btn btn-secondary col-12 my-3" (click)="returnClosed()"
+        [disabled]="order.isPaid && order.isSent && !order.returnReceived || order.isPaid && !order.refund || order.returnClosed">
+        Mark Return as closed
+      </button>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <h5><strong>Delivery Status:</strong></h5>
+    <div class="card my-3">
+      <span
+        [ngClass]="{'card-header': true, 'border-success': order.isSent && order.sentAt, 'border-danger': !order.isSent}">
+        <ng-container *ngIf="order.isSent && order.sentAt; else notDispatched">Order has been dispatched on
+          {{order.sentAt | date:'medium'}}</ng-container>
+        <ng-template #notDispatched>Order is not dispatched</ng-template>
+      </span>
+      <button type="button" class="btn btn-secondary col-12 my-3" (click)="sendOrder()"
+        [disabled]="!order.isPaid || order.returnActive || order.isSent">
+        Mark Order as sent
+      </button>
+
+      <span
+        [ngClass]="{'card-header': true, 'border-success': order.isDelivered && order.deliveredAt, 'border-danger': !order.isDelivered}">
+        <ng-container *ngIf="order.isDelivered && order.deliveredAt; else notDelivered">Order has been delivered
+          on {{order.deliveredAt | date:'medium'}}</ng-container>
+        <ng-template #notDelivered>Order is not delivered</ng-template>
+      </span>
+      <button type="button" class="btn btn-secondary col-12 my-3" (click)="deliverOrder()"
+        [disabled]="order.isDelivered || !order.isSent || order.returnActive">
+        Mark Order as delivered
+      </button>
+    </div>
+
+    <div class="card my-5" *ngIf="order.returnActive">
+      <span
+        [ngClass]="{'card-header': true, 'border-success': order.returnReceived && order.returnReceivedAt, 'border-danger': !order.returnReceived}">
+        <ng-container *ngIf="order.returnReceived && order.returnReceivedAt; else notReceived">Return has been
+          received {{order.returnReceivedAt | date:'medium'}}</ng-container>
+        <ng-template #notReceived>Return is not received</ng-template>
+      </span>
+      <button type="button" class="btn btn-secondary col-12 my-3" (click)="returnReceived()"
+        [disabled]="!order.isSent || order.returnReceived">
+        Mark Return as received
+      </button>
+    </div>
+  </div>
+</div>

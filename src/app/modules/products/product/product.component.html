@@ -1,0 +1,23 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <ng-container *ngIf="vm.product">
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+      <a class="nav-link" [routerLink]="['/products']">Home</a>
+
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Product Details</a>
+        <ng-template ngbNavContent>
+          <app-product-details [product]="vm.product" [userId]="userId"></app-product-details>
+        </ng-template>
+      </ng-container>
+
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Product Reviews</a>
+        <ng-template ngbNavContent>
+          <app-review [productReviews]="vm.product.reviews" [productId]="productId" [userId]="userId"
+            [userName]="userName"></app-review>
+        </ng-template>
+      </ng-container>
+    </nav>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </ng-container>
+</ng-container>

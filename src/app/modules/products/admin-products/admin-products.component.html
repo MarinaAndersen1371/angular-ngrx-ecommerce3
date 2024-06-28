@@ -1,0 +1,95 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="my-4"><strong>Product List</strong></h3>
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Brand</th>
+        <th>Category</th>
+        <th>Purchase Price</th>
+        <th>Standard Price</th>
+        <th>Special Offer (-5%)</th>
+        <th>Warranty (2%)</th>
+        <th>Device Protection</th>
+        <th>Count in Stock</th>
+        <th>Modified On</th>
+        <th>Modified By</th>
+        <th>
+          <button type="button" title="Add new product" class="btn btn-success"
+            [routerLink]="['/products/admin-product-add']">Add New Product
+            <fa-icon [icon]="faPlus"></fa-icon>
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let product of vm.products | slice: (page-1) * pageSize : page * pageSize">
+        <th>{{product.name}}</th>
+        <td>{{product.brand}}</td>
+        <td>{{product.category}}</td>
+        <td>{{product.pricePurchase | currency: 'EUR'}}</td>
+        <td>{{product.price | currency: 'EUR'}}</td>
+        <td>{{product.price - product.price*0.05 | currency: 'EUR'}}</td>
+        <td>{{product.price * 0.02 | currency: 'EUR'}}</td>
+        <td>
+          <fa-icon [icon]="faCheck" class="text-success" *ngIf="product.extra"></fa-icon>
+          <fa-icon [icon]="faTimes" class="text-danger" *ngIf="!product.extra"></fa-icon>
+        </td>
+        <td [ngClass]="product.quantity > 0 ? 'text-success' : 'text-danger'">{{ product.quantity }}</td>
+        <td>{{product.lastModified && product.lastModified | date:'medium'}}</td>
+        <td>{{product.modifiedBy}}</td>
+        <td>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-info" title="View Product"
+              [routerLink]="['/products/admin-product', product._id]">
+              <fa-icon [icon]="faSearch">
+              </fa-icon>
+            </button>
+            <button type="button" class="btn btn-warning" title="Edit Product"
+              [routerLink]="['/products/admin-product-edit', product._id]">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-danger" title="Delete Product" (click)="deleteProduct(product._id)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ngb-pagination [collectionSize]="vm.products.length" [(page)]="page" [pageSize]="pageSize"
+    class="d-flex justify-content-center"></ngb-pagination>
+
+  <table class="table table-hover text-center my-5" *ngIf="vm.products && vm.statistics">
+    <thead>
+      <tr>
+        <th>Products Quantity</th>
+        <th>Total Items Stock</th>
+        <th>Device Protection</th>
+        <th>Device Protection Stock</th>
+        <th>Audio</th>
+        <th>Audio Stock</th>
+        <th>Electronics </th>
+        <th>Electronics Stock</th>
+        <th>Smart Home</th>
+        <th>Smart Home Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{vm.products.length}} </td>
+        <td>{{vm.statistics.qtyStock}}</td>
+        <td>{{vm.statistics.qtyExtra}} </td>
+        <td>{{vm.statistics.qtyExtraStock}} </td>
+        <td>{{vm.statistics.qtyAudio}} </td>
+        <td>{{vm.statistics.qtyAudioStock}} </td>
+        <td>{{vm.statistics.qtyElectronics}}</td>
+        <td>{{vm.statistics.qtyElectronicsStock}}</td>
+        <td>{{vm.statistics.qtySmartHome}}</td>
+        <td>{{vm.statistics.qtySmartHomeStock}}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

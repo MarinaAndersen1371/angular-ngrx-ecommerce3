@@ -1,0 +1,60 @@
+<table class="table table-hover text-center my-5">
+  <thead>
+    <tr>
+      <th>Order/Return ID</th>
+      <th>Date</th>
+      <th>Customer Name</th>
+      <th>Items Subtotal </th>
+      <th>Shipping Fee </th>
+      <th>Tax Rate </th>
+      <th>Return Total</th>
+      <th>Order Dispatched </th>
+      <th>Return Received</th>
+      <th>Refund Paid</th>
+      <th>Return Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let order of orders">
+      <ng-container *ngIf="order.returnActive">
+        <tr>
+          <td>{{order._id}} </td>
+          <td>{{order.createdAt | date:'medium'}}</td>
+          <td>{{order.user.firstName}} {{order.user.lastName}}</td>
+          <td>{{order.itemsPriceReturn | currency: 'EUR'}}</td>
+          <td>{{order.shippingPriceReturn | currency:
+            'EUR'}}</td>
+          <td>{{order.taxPriceReturn | currency: 'EUR'}}</td>
+          <td [ngClass]="{ 'text-primary': order.isPaid }">{{order.totalPriceReturn | currency:
+            'EUR'}}
+          </td>
+          <td>
+            <span *ngIf="order.isSent && order.sentAt">{{order.sentAt | date:'medium'}}</span>
+            <fa-icon [icon]="faTimes" *ngIf="!order.isSent"></fa-icon>
+          </td>
+          <td>
+            <span *ngIf="order.returnReceived && order.returnReceivedAt">{{order.returnReceivedAt |
+              date:'medium'}}</span>
+            <fa-icon [icon]="faTimes" *ngIf="!order.returnReceived"></fa-icon>
+          </td>
+          <td>
+            <span *ngIf="order.refund && order.refundAt">{{order.refundAt | date:'medium'}}</span>
+            <fa-icon [icon]="faTimes" *ngIf="!order.refund"></fa-icon>
+          </td>
+          <td>
+            <span *ngIf="order.returnClosed">Closed</span>
+            <span *ngIf="!order.returnClosed" class="text-danger">Active</span>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-warning" title="View Return" [routerLink]="getReturnLink(order._id)">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</table>

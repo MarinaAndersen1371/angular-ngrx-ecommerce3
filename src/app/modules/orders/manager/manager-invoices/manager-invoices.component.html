@@ -1,0 +1,55 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="my-4"><strong>Invoice List</strong></h3>
+
+  <div *ngIf="vm.orders?.length; else showNoDataBlock">
+    <table class="table table-hover text-center my-5">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Date</th>
+          <th>Customer Name</th>
+          <th>Items Subtotal</th>
+          <th>Shipping Fee</th>
+          <th>Tax Rate</th>
+          <th>Order Total</th>
+          <th>Order Paid</th>
+          <th>Invoice Sent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of vm.orders | slice: (page-1) * pageSize : page * pageSize">
+          <td>{{order._id}} </td>
+          <td>{{order.createdAt | date:'medium'}}</td>
+          <td>{{order.user.firstName}} {{order.user.lastName}}</td>
+          <td>{{order.itemsPrice | currency: 'EUR'}}</td>
+          <td>{{order.shippingPrice | currency: 'EUR'}}</td>
+          <td>{{order.taxPrice | currency: 'EUR'}}</td>
+          <td [ngClass]="{ 'text-primary': order.isPaid }">{{order.totalPrice | currency: 'EUR'}}</td>
+          <td>
+            <span *ngIf="order.isPaid && order.paidAt">{{order.paidAt | date:'medium'}} </span>
+            <fa-icon [icon]="faTimes" *ngIf="!order.isPaid"></fa-icon>
+          </td>
+          <td>
+            <span *ngIf="order.invoiceSent && order.invoiceAt">{{order.invoiceAt | date:'medium'}}
+            </span>
+            <fa-icon [icon]="faTimes" *ngIf="!order.invoiceSent"></fa-icon>
+          </td>
+          <td>
+            <button type="button" class="btn btn-info" title="View Invoice"
+              [routerLink]="['/orders/manager-invoice', order._id]">
+              <fa-icon [icon]="faSearch">
+              </fa-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ngb-pagination [collectionSize]="vm.orders.length" [(page)]="page" [pageSize]="pageSize"
+      class="d-flex justify-content-center"></ngb-pagination>
+  </div>
+
+  <ng-template #showNoDataBlock>
+    <app-no-data></app-no-data>
+  </ng-template>
+</ng-container>

@@ -1,0 +1,25 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <ng-container *ngIf="vmUser$ | async as vmUser">
+    <ng-container *ngIf="vm?.order?.user?._id === vmUser?._id; else showMessageBlock">
+      <div class="row">
+        <div class="col-md-10">
+          <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+        </div>
+        <div class="col-md-2">
+          <a class="btn btn-secondary col-md-12 my-2" [routerLink]="orderLink" role="button">
+            Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+          </a>
+        </div>
+      </div>
+      <h5 class="mb-5"><strong>Extra Device Protection Card # {{vm.order._id}}</strong></h5>
+      <app-invoice-address *ngIf="vm.order?.invoiceAddress" [order]="vm.order">
+      </app-invoice-address>
+
+      <app-device-table [role]="role" [order]="vm.order"></app-device-table>
+    </ng-container>
+
+    <ng-template #showMessageBlock>
+      <app-not-authorized></app-not-authorized>
+    </ng-template>
+  </ng-container>
+</ng-container>

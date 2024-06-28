@@ -1,0 +1,11 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="my-4"><strong>Order List</strong></h3>
+
+  <div *ngIf="vm.orders?.length; else showNoDataBlock">
+    <app-order-list-table [orders]="vm.orders" [role]="role"></app-order-list-table>
+  </div>
+
+  <ng-template #showNoDataBlock>
+    <app-no-data></app-no-data>
+  </ng-template>
+</ng-container>

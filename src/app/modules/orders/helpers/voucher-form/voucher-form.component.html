@@ -1,0 +1,19 @@
+<form #f="ngForm">
+  <div class="row form-group my-3">
+    <div class="col-md-7"> </div>
+    <div class="col-md-2 "><input type="text" name="voucher" ngModel #voucher="ngModel" id="voucher"
+        pattern="{{userCoupon}}" placeholder="Enter your Voucher">
+      <div *ngIf="voucher.invalid && (voucher.dirty || voucher.touched)">
+        <div *ngIf="voucher.errors?.['pattern']" class="text-danger">
+          Invalid Voucher
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <button type="button" class="btn btn-secondary" title="Submit Voucher" (click)="submitVoucher(userId, f)"
+        [disabled]="userCoupon && f.value.voucher !== userCoupon">
+        <fa-icon [icon]="faCheck"></fa-icon> Submit
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,34 @@
+<ng-container *ngIf="vm$ | async as vm">
+
+  <app-order-links [role]="role" [order]="vm.order">
+  </app-order-links>
+
+  <h3><strong>Order {{vm.order._id}}</strong></h3>
+  <p class="mb-5">placed on {{vm.order.createdAt | date:'medium'}}</p>
+
+  <app-order-table [role]="role" [context]="context" [order]="vm.order" photo=true>
+  </app-order-table>
+
+  <div class="row mb-5">
+    <div class="col-md-5">
+      <app-shipping-address *ngIf="vm.order?.shippingAddress" [order]="vm.order">
+      </app-shipping-address>
+
+      <app-payment *ngIf="vm.order?.payment" [order]="vm.order">
+      </app-payment>
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-5">
+      <div class="card my-4">
+        <h5 class="my-4 text-center"><strong>Order Summary</strong></h5>
+        <app-order-summary *ngIf="vm.order" [context]="context" [order]="vm.order">
+        </app-order-summary>
+      </div>
+    </div>
+
+    <div class="col-md-1"></div>
+
+  </div>
+</ng-container>

@@ -1,0 +1,74 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="my-4"><strong>Order List </strong></h3>
+
+  <div *ngIf="vm.orders?.length; else showNoDataBlock">
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Date</th>
+          <th>Shipping Fee</th>
+          <th>Order Total</th>
+          <th>Order Paid</th>
+          <th>Order Sent</th>
+          <th>Order Delivered</th>
+          <th>Invoice Sent</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let order of vm.orders">
+          <tr>
+            <td>{{order._id}} </td>
+            <td>{{order.createdAt | date:'medium'}}</td>
+            <td>{{order.shippingPrice | currency: 'EUR'}}
+            </td>
+            <td>{{order.totalPrice | currency: 'EUR'}}</td>
+            <td>
+              <span *ngIf="order.isPaid && order.paidAt">{{order.paidAt | date:'medium'}}
+              </span>
+              <fa-icon [icon]="faTimes" *ngIf="!order.isPaid"></fa-icon>
+            </td>
+            <td>
+              <span *ngIf="order.isSent && order.sentAt">{{order.sentAt | date:'medium'}}
+              </span>
+              <fa-icon [icon]="faTimes" *ngIf="!order.isSent"></fa-icon>
+            </td>
+            <td>
+              <span *ngIf="order.isDelivered && order.deliveredAt">{{order.deliveredAt | date:'medium'}}
+              </span>
+              <fa-icon [icon]="faTimes" *ngIf="!order.isDelivered"></fa-icon>
+            </td>
+            <td>
+              <span *ngIf="order.invoiceSent && order.invoiceAt">{{order.invoiceAt | date:'medium'}}
+              </span>
+              <fa-icon [icon]="faTimes" *ngIf="!order.invoiceSent"></fa-icon>
+            </td>
+            <td>
+              <button type="button" class="btn btn-info" title="View Order" [routerLink]="['/orders/order', order._id]">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button>
+            </td>
+            <td> <button *ngIf="order.returnActive" type="button" class="btn btn-warning" title="View Return"
+                [routerLink]="['/orders/return', order._id]">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button></td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #showNoDataBlock>
+    <app-no-data></app-no-data>
+    <div class="col-6 offset-3 text-center">
+
+      <a class="btn btn-info mb-5 " [routerLink]="['/products']">
+        <fa-icon [icon]="faStoreAlt"></fa-icon>Start Shopping
+      </a>
+    </div>
+  </ng-template>
+</ng-container>

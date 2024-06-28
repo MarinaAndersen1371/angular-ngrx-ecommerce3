@@ -1,0 +1,114 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="mt-4 mb-4"><strong>Client Request List</strong></h3>
+
+  <div *ngIf="vm.tickets.length; else showNoDataBlock">
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+          <th>Ticket ID</th>
+          <th>Created At</th>
+          <th>Client Name</th>
+          <th>Category</th>
+          <th>Modified On</th>
+          <th>Modified By</th>
+          <th>Booked Time (Admin)</th>
+          <th>Booked Time (Manager)</th>
+          <th>Booked Time (Support)</th>
+          <th>Booked Time (Total)</th>
+          <th>Ticket Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of vm.tickets">
+          <td>{{ticket._id}}</td>
+          <td>{{ticket.createdAt | date:'medium'}}</td>
+          <td>{{ticket.name}}</td>
+          <td>{{ticket.category}}</td>
+          <td>{{ticket.lastModified | date:'medium'}}</td>
+          <td>{{ticket.modifiedBy}}</td>
+          <td>{{ticket.timeAdmin}}</td>
+          <td>{{ticket.timeManager}}</td>
+          <td>{{ticket.timeSupport}}</td>
+          <td>{{ticket.timeAdmin + ticket.timeManager + ticket.timeSupport}}</td>
+          <td>
+            <span *ngIf="ticket.status==='New'" class="text-primary">New</span>
+            <span *ngIf="ticket.status==='On hold'" class="text-danger">On hold</span>
+            <span *ngIf="ticket.status==='Closed'" class="text-info">Closed</span>
+          </td>
+          <td>
+            <div class="my-1">
+              <button type="button" class="btn btn-info" title="View Ticket"
+                [routerLink]="['/tickets/admin-ticket', ticket._id]">
+                <fa-icon [icon]="faSearch"></fa-icon>
+              </button>
+            </div>
+            <div>
+              <button type="button" class="btn btn-danger" title="Delete Ticket" (click)="deleteTicket(ticket._id)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-container *ngIf="vm.statistics">
+      <table class="table table-hover text-center my-5">
+        <thead>
+          <tr>
+            <th>Total Tickets</th>
+            <th>Status "New"</th>
+            <th>Status "On Hold"</th>
+            <th>Status "Closed"</th>
+            <th>Category "Development"</th>
+            <th>Category "Business"</th>
+            <th>Category "Maintenance"</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{vm.tickets.length}} </td>
+            <td>{{vm.statistics.qtyNew}} </td>
+            <td>{{vm.statistics.qtyOnHold}} </td>
+            <td>{{vm.statistics.qtyClosed}}</td>
+            <td>{{vm.statistics.qtyDevelopment}} </td>
+            <td>{{vm.statistics.qtyBusiness}}</td>
+            <td>{{vm.statistics.qtyMaintenance}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th>Modified By Admin</th>
+            <th>Modified By Manager</th>
+            <th>Modified By Support</th>
+            <th>Modified By Customer</th>
+            <th>Booked Time (Admin)</th>
+            <th>Booked Time (Manager)</th>
+            <th>Booked Time (Support)</th>
+            <th>Booked Time (Total)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{vm.statistics.qtyAdmin}} </td>
+            <td>{{vm.statistics.qtyManager}}</td>
+            <td>{{vm.statistics.qtySupport}}</td>
+            <td>{{vm.statistics.qtyCustomer}}</td>
+            <td>{{vm.statistics.timeAdmin}}</td>
+            <td>{{vm.statistics.timeManager}} </td>
+            <td>{{vm.statistics.timeSupport}} </td>
+            <td>{{+vm.statistics.timeAdmin + +vm.statistics.timeManager + +vm.statistics.timeSupport}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+  </div>
+
+  <ng-template #showNoDataBlock>
+    <app-no-data></app-no-data>
+  </ng-template>
+</ng-container>

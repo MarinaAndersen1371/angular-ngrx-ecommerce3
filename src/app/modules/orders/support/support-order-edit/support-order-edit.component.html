@@ -1,0 +1,5 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <app-order-edit [order]="vm.order" [role]="role" [sendOrder]="sendOrder.bind(this)"
+    [deliverOrder]="deliverOrder.bind(this)" [returnReceived]="returnReceived.bind(this)"
+    [refundPaid]="refundPaid.bind(this)" [returnClosed]="returnClosed.bind(this)"></app-order-edit>
+</ng-container>

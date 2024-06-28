@@ -1,0 +1,63 @@
+<table class="table table-hover text-center">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Ordered Product</th>
+      <th>Quantity</th>
+      <th>Price/Item</th>
+      <th *ngIf="context === 'order' ">Cost/ Item</th>
+      <th>Discount/ Item</th>
+      <th>Warranty/ Item</th>
+      <th *ngIf="order.extraPrice > 0">Protection/ Item</th>
+      <th *ngIf="order.giftPrice > 0">Gift Package</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item  of order.orderItems">
+      <td><a [routerLink]="['/products/product', item._id]"><span class="cart-list-image"><img *ngIf="photo"
+              [src]="item.imageUrl" title="View Product"></span></a>
+      </td>
+
+      <td>{{item.name}}</td>
+
+      <td>{{item.quantity}}</td>
+
+      <td>{{item.price | currency: 'EUR'}}</td>
+
+      <td class="text-danger" *ngIf="context === 'order' ">
+        {{item.pricePurchase | currency:
+        'EUR'}}</td>
+
+      <td>
+        <span *ngIf="item.discount > 0">-{{(item.price *
+          item.discount) | currency:
+          'EUR'}}</span>
+        <span *ngIf="item.discount === 0">€0.00</span>
+      </td>
+
+      <td>{{(item.price * item.warranty) | currency:
+        'EUR'}}</td>
+
+      <td *ngIf="order.extraPrice > 0">
+        <span *ngIf="!order.isPaid || (item.extra1 + item.extra2) === 0">
+          {{(item.extra1 + item.extra2) | currency:
+          'EUR'}}</span>
+        <span *ngIf="order.isPaid && (item.extra1 + item.extra2) > 0">
+          <a title="View Device Protection" class="text-info" [routerLink]="getDeviceProtectionLink(order._id)">
+            <strong>{{ (item.extra1 + item.extra2) | currency: 'EUR' }}</strong>
+          </a>
+        </span>
+      </td>
+
+      <td *ngIf="order.giftPrice > 0">{{item.gift | currency:
+        'EUR'}}</td>
+
+      <td>{{(item.price * item.quantity -
+        item.price * item.quantity * item.discount +
+        item.price * item.quantity * item.warranty +
+        (item.extra1 + item.extra2) * item.quantity +
+        item.gift) | currency: 'EUR'}}</td>
+    </tr>
+  </tbody>
+</table>

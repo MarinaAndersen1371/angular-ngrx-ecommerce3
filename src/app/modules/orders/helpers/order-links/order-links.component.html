@@ -1,0 +1,34 @@
+<div class="row" *ngIf="order">
+  <div class="col-md-2">
+    <a *ngIf="order.returnActive" class="btn btn-warning col-md-12 my-2" [routerLink]="getReturnLink(order._id)"
+      role="button">
+      Return
+    </a>
+  </div>
+
+  <div class="col-md-4"></div>
+
+  <div class="col-md-2">
+    <p *ngIf="role !== 'support'">
+      <a class="btn btn-secondary col-md-12 my-2" [routerLink]="getInvoiceLink(order._id)" role="button">
+        Go to Invoice <fa-icon [icon]="faArrowRight"></fa-icon>
+      </a>
+    </p>
+  </div>
+
+  <div class="col-md-2">
+    <p>
+      <a class="btn btn-secondary col-md-12 my-2" [routerLink]="getDeliveryNoteLink(order._id)" role="button">
+        Go to Delivery Note <fa-icon [icon]="faArrowRight"></fa-icon>
+      </a>
+    </p>
+  </div>
+
+  <div class="col-md-2">
+    <a *ngIf="order.extraPrice > 0 && order.isPaid" class="btn btn-secondary col-md-12 my-2"
+      [routerLink]="getDeviceProtectionLink(order._id)" role="button">
+      Go to Device Card <fa-icon [icon]="faArrowRight"></fa-icon>
+    </a>
+  </div>
+
+</div>

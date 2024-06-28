@@ -1,0 +1,49 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="row">
+    <div class="col-md-8">
+      <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+    </div>
+
+    <div class="col-md-2">
+      <p>
+        <a class="btn btn-secondary col-md-12 my-2" [routerLink]="orderLink" role="button">
+          Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+        </a>
+      </p>
+    </div>
+
+    <div class="col-md-2">
+      <p>
+        <a class="btn btn-secondary col-md-12 my-2" [routerLink]="deliveryNoteLink" role="button">
+          Go to Delivery Note <fa-icon [icon]="faArrowRight"></fa-icon>
+        </a>
+      </p>
+    </div>
+  </div>
+
+  <h3 class="mb-5"><strong>Invoice {{vm.order._id}}</strong></h3>
+
+  <app-invoice-address *ngIf="vm.order?.invoiceAddress" [order]="vm.order">
+  </app-invoice-address>
+
+  <app-order-table [order]="vm.order" [role]="role"></app-order-table>
+
+  <div class="row my-5">
+    <div class="col-md-5">
+      <app-payment *ngIf="vm.order?.payment" [order]="vm.order">
+      </app-payment>
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-5">
+      <div class="card my-1">
+        <h5 class="my-4 text-center"><strong>Invoice Summary</strong></h5>
+        <app-order-summary *ngIf="vm.order" [order]="vm.order">
+        </app-order-summary>
+      </div>
+    </div>
+
+    <div class="col-md-1"></div>
+  </div>
+</ng-container>

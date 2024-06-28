@@ -1,0 +1,7 @@
+<div>
+  <span *ngFor="let index of stars">
+    <fa-icon [icon]="getStarIcon(index)" [ngClass]="value < index - 0.5 ? 'empty' : 'text-warning'"></fa-icon>
+  </span>
+
+  <span *ngIf="text" class="mx-2">{{ text }}</span>
+</div>

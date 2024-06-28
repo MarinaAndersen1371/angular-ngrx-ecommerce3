@@ -1,0 +1,10 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="my-4"><strong>Extra Device Protection Card List</strong></h3>
+  <div *ngIf="vm.statistics && +vm.statistics.qtyExtra < 1; else showTableBlock">
+    <app-no-data></app-no-data>
+  </div>
+
+  <ng-template #showTableBlock>
+    <app-devices-list-table [orders]="vm.orders" [statistics]="vm.statistics" [role]="role"></app-devices-list-table>
+  </ng-template>
+</ng-container>

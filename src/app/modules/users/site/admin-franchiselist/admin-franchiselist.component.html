@@ -1,0 +1,74 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="my-4"><strong>Franchise Association Member List</strong></h3>
+  <div *ngIf="vm.statistics && +vm.statistics.qtyTestPaid < 1; else showTableBlock">
+    <app-no-data></app-no-data>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table class="table table-hover text-center" *ngIf="vm.users.active">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>User First Name</th>
+          <th>User Last Name</th>
+          <th>Type of Purchasing</th>
+          <th>Test Score</th>
+          <th>Franchise From</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of vm.users.active">
+          <ng-container *ngIf="user.testPaid">
+            <td>{{user._id}}</td>
+            <td>{{user.firstName}}</td>
+            <td>{{user.lastName}}</td>
+            <td>{{user.purpose}}</td>
+            <td>
+              <span class="text-success" *ngIf="user.testScore > 79">{{user.testScore}}%</span>
+              <span *ngIf="user.testScore < 80 && user.testScore > 0" class="text-danger">{{user.testScore}}%</span>
+              <fa-icon [icon]="faTimes" *ngIf="user.testScore === 0"></fa-icon>
+            </td>
+            <td><span *ngIf="user.isFranchise && user.franchiseFrom">{{user.franchiseFrom |
+                date}}</span>
+              <fa-icon [icon]="faTimes" *ngIf="!user.isFranchise"></fa-icon>
+            </td>
+            <td>
+              <button type="button" class="btn btn-info" title="View User"
+                [routerLink]="['/users/admin-user', user._id]">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.users.active && vm.statistics">
+      <thead>
+        <tr>
+          <th>All Users / Quantity</th>
+          <th>Total Fee / Cost</th>
+          <th>Total Fee / Revenue</th>
+          <th>Total Fee / Profit</th>
+          <th>Training Paid</th>
+          <th>Training Completed</th>
+          <th>Training Failed</th>
+          <th>Active Franchise Members</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.users.active.length}}</td>
+          <td class="text-danger">{{+vm.statistics.qtyTestPaid * 150 | currency: 'EUR'}}</td>
+          <td>{{+vm.statistics.qtyTestPaid * 500 | currency: 'EUR'}}</td>
+          <td class="text-success">{{+vm.statistics.qtyTestPaid * 350 | currency: 'EUR'}}</td>
+          <td>{{vm.statistics.qtyTestPaid}}</td>
+          <td>{{vm.statistics.qtyTestCompleted}}</td>
+          <td>{{vm.statistics.qtyTestFailed}}</td>
+          <td>{{vm.statistics.qtyFranchise}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</ng-container>

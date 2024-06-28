@@ -1,0 +1,26 @@
+<table class="table table-hover text-center my-5">
+  <thead>
+    <tr>
+      <th>Delivery Total</th>
+      <th>Orders Not Sent</th>
+      <th>Orders Dispatched</th>
+      <th>Orders Delivered</th>
+      <th>Standard Delivery</th>
+      <th>Fastest Delivery</th>
+      <th>Free Delivery</th>
+      <th>Return Received</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{orders.length}} </td>
+      <td>{{statistics.qtyNotSent }} </td>
+      <td>{{statistics.qtySent }}</td>
+      <td>{{statistics.qtyDelivered }} </td>
+      <td>{{statistics.qtyStandard}}</td>
+      <td>{{statistics.qtyFastest}} </td>
+      <td>{{statistics.qtyFree }} </td>
+      <td>{{statistics.qtyReturnReceived }} </td>
+    </tr>
+  </tbody>
+</table>

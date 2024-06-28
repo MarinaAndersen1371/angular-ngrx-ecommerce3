@@ -1,0 +1,54 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="mt-4 mb-4"><strong>Client Request List</strong></h3>
+
+  <div *ngIf="vm.tickets.length; else showNoDataBlock">
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+          <th>Ticket ID</th>
+          <th>Created At</th>
+          <th>Client Name</th>
+          <th>Category</th>
+          <th>Modified On</th>
+          <th>Modified By</th>
+          <th>Booked Time (Admin)</th>
+          <th>Booked Time (Manager)</th>
+          <th>Booked Time (Support)</th>
+          <th>Booked Time (Total)</th>
+          <th>Ticket Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of vm.tickets">
+          <td>{{ticket._id}}</td>
+          <td>{{ticket.createdAt | date:'medium'}}</td>
+          <td>{{ticket.name}}</td>
+          <td>{{ticket.category}}</td>
+          <td>{{ticket.lastModified | date:'medium'}}</td>
+          <td>{{ticket.modifiedBy}}</td>
+          <td>{{ticket.timeAdmin}}</td>
+          <td>{{ticket.timeManager}}</td>
+          <td>{{ticket.timeSupport}}</td>
+          <td>{{ticket.timeAdmin + ticket.timeManager + ticket.timeSupport}}</td>
+          <td>
+            <span *ngIf="ticket.status==='New'" class="text-primary">New</span>
+            <span *ngIf="ticket.status==='On hold'" class="text-danger">On hold</span>
+            <span *ngIf="ticket.status==='Closed'" class="text-info">Closed</span>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-info" title="View Ticket"
+                [routerLink]="['/tickets/support/ticket', ticket._id]">
+                <fa-icon [icon]="faSearch"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #showNoDataBlock>
+    <app-no-data></app-no-data>
+  </ng-template>
+</ng-container>

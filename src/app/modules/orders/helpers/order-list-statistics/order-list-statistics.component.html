@@ -1,0 +1,57 @@
+<ng-container *ngIf="statistics">
+  <table class="table table-hover text-center my-5">
+    <thead>
+      <tr>
+        <th>Orders Total Qty</th>
+        <th>Orders Not Paid Qty</th>
+        <th>Orders Paid Qty </th>
+        <th>Total Cost</th>
+        <th>Total Amount</th>
+        <th>Total Not Paid</th>
+        <th>Total Paid</th>
+        <th>Items Not Paid</th>
+        <th>Items Paid</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{orders.length}} </td>
+        <td>{{statistics.qtyNotPaid }} </td>
+        <td>{{statistics.qtyPaid }}</td>
+        <td>{{+statistics.costNotPaid + +statistics.costPaid| currency: 'EUR'}}</td>
+        <td>{{+statistics.totalPriceNotPaid + +statistics.totalPricePaid| currency: 'EUR'}}</td>
+        <td>{{statistics.totalPriceNotPaid | currency: 'EUR'}}</td>
+        <td>{{statistics.totalPricePaid | currency: 'EUR'}} </td>
+        <td>{{statistics.totalItemsNotPaid | currency: 'EUR'}}</td>
+        <td>{{statistics.totalItemsPaid | currency: 'EUR'}} </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-hover text-center my-5">
+    <thead>
+      <tr>
+        <th>Tax Rate Not Paid</th>
+        <th>Tax Rate Paid</th>
+        <th>Shipping Fee Not Paid</th>
+        <th>Shipping Fee Paid</th>
+        <th>Prime Fee Not Paid</th>
+        <th>Prime Fee Paid</th>
+        <th>Franchise Fee Not Paid</th>
+        <th>Franchise Fee Paid</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{statistics.taxNotPaid | currency: 'EUR'}} </td>
+        <td>{{statistics.taxPaid | currency: 'EUR'}} </td>
+        <td>{{statistics.shippingNotPaid | currency: 'EUR'}} </td>
+        <td>{{statistics.shippingPaid | currency: 'EUR'}} </td>
+        <td>{{statistics.totalPrimeNotPaid | currency: 'EUR'}} </td>
+        <td>{{statistics.totalPrimePaid | currency: 'EUR'}} </td>
+        <td>{{statistics.totalFranchiseNotPaid | currency: 'EUR'}} </td>
+        <td>{{statistics.totalFranchisePaid | currency: 'EUR'}} </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>

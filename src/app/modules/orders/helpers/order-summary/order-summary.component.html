@@ -1,0 +1,55 @@
+<div class="card-body">
+  <p>
+    <strong class="subtotal">Items Subtotal: </strong>
+    {{ order.itemsPrice | currency: 'EUR' }}
+    <span class="text-danger" *ngIf="context === 'order'">
+      / {{ (order.itemsCost + order.giftPrice * 0.1) | currency: 'EUR' }}
+    </span>
+  </p>
+
+  <p>
+    <strong class="shipping">Shipping Fee: </strong>
+    {{ order.shippingPrice | currency: 'EUR' }}
+  </p>
+
+  <ng-container *ngIf="order.primePrice > 0">
+    <p>
+      <strong class="prime">Premium Subscription Fee:</strong>
+      €70.00
+      <span class="text-danger" *ngIf="context === 'order' ">/ €7.00</span>
+    </p>
+  </ng-container>
+
+  <ng-container *ngIf="order.franchisePrice > 0">
+    <p>
+      <strong class="franchise">Franchising System Fee:</strong>
+      €500.00
+      <span class="text-danger" *ngIf="context === 'order' ">/ €150.00</span>
+    </p>
+  </ng-container>
+
+  <p *ngIf="order.voucher && order.voucher !== '00'">
+    <strong class="voucher">Loyalty Points Voucher:</strong>
+    - €10.00
+  </p>
+
+  <p>
+    <strong class="tax">Tax Rate (15%): </strong>
+    {{ order.taxPrice | currency: 'EUR' }}
+  </p>
+
+  <p [ngClass]="{'text-success': order.isPaid}">
+    <strong>TOTAL: </strong>
+    <span class="price">{{ order.totalPrice | currency: 'EUR' }}</span>
+    <span class="text-danger" *ngIf="context === 'order' ">
+      / {{ order.totalCost | currency: 'EUR' }}
+    </span>
+  </p>
+
+  <ng-container *ngIf="order.returnActive && context === 'order'">
+    <p>
+      <strong class="return">Total Return: </strong>
+      <span>{{ order.totalPriceReturn | currency: 'EUR' }} / {{ order.itemsCostReturn | currency: 'EUR' }}</span>
+    </p>
+  </ng-container>
+</div>

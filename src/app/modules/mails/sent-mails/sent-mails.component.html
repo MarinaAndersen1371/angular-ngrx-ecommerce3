@@ -1,0 +1,58 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <div class="row">
+    <div class="col-2 my-5 py-5">
+      <a class="btn btn-info col-md-12 my-2" [routerLink]="['/mails/sent-mail']" role="button">
+        New Mail
+      </a>
+      <a class="btn btn-info col-md-12 my-2" [routerLink]="['/mails/mymails']" role="button">
+        Incoming Mails
+      </a>
+      <a class="btn btn-info col-md-12 my-2 disabled" role="button">
+        Sent Mails
+      </a>
+    </div>
+    <div class="col-1 my-5"></div>
+    <div class="col-7 my-5">
+      <h3 class="text-center mb-4"><strong>Outgoing Mails:
+        </strong></h3>
+
+      <ng-container *ngIf="vm.mails?.outMails?.length; else showNoDataBlock">
+        <table class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>To</th>
+              <th>Subject</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let mail of vm.mails.outMails">
+              <tr>
+                <td>
+                  {{mail.createdAt | date}}
+                </td>
+                <td>
+                  {{mail.firstNameTarget}} {{mail.lastNameTarget}}
+                </td>
+                <td class="mail"><a [routerLink]="['/mails/mail', mail._id]" title="View Mail">{{mail.subject}}</a>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-danger" title="Delete Mail" (click)="deleteMailOut(mail._id)"
+                    aria-label="Delete Mail">
+                    <fa-icon [icon]="faTrash"></fa-icon>
+                  </button>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </ng-container>
+      <div class="col-1 my-5"></div>
+    </div>
+
+    <ng-template #showNoDataBlock>
+      <app-no-data></app-no-data>
+    </ng-template>
+  </div>
+</ng-container>

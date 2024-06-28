@@ -1,0 +1,51 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <h3 class="my-4"><strong>Return List</strong></h3>
+
+  <div *ngIf="vm.statistics && +vm.statistics.qtyReturn < 1; else showTableBlock">
+    <app-no-data></app-no-data>
+  </div>
+
+  <ng-template #showTableBlock>
+
+    <app-return-list-table [orders]="vm.orders" [role]="role"></app-return-list-table>
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.statistics">
+      <thead>
+        <tr>
+          <th>Orders Qty</th>
+          <th>Total Amount</th>
+          <th>Returns Qty</th>
+          <th>Return Total</th>
+          <th>Return Not Paid</th>
+          <th>Return Paid</th>
+          <th>Return Items Price </th>
+          <th>Return Tax Rate </th>
+          <th>Return Shipping Fee </th>
+          <th>Return Received</th>
+          <th>Return Active</th>
+          <th>Return Closed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.orders.length}} </td>
+          <td>{{+vm.statistics.totalPriceNotPaid + +vm.statistics.totalPricePaid| currency: 'EUR'}}</td>
+          <td>{{vm.statistics.qtyReturn }} </td>
+          <td class="text-danger">{{+vm.statistics.totalReturnNotPaid + +vm.statistics.totalReturnPaid | currency:
+            'EUR'}}</td>
+          <td class="text-danger">{{vm.statistics.totalReturnNotPaid | currency: 'EUR'}}</td>
+          <td class="text-danger">{{vm.statistics.totalReturnPaid | currency: 'EUR'}}</td>
+          <td class="text-danger">{{vm.statistics.totalItemsReturn | currency: 'EUR'}}</td>
+          <td class="text-danger">{{+vm.statistics.totalTaxReturnNotPaid + +vm.statistics.totalTaxReturnPaid | currency:
+            'EUR'}}</td>
+          <td class="text-danger">{{ vm.statistics.totalShippingReturn |
+            currency: 'EUR'}}
+          </td>
+          <td>{{vm.statistics.qtyReturnReceived }}</td>
+          <td>{{vm.statistics.qtyReturnActive }}</td>
+          <td>{{vm.statistics.qtyReturnClosed }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</ng-container>

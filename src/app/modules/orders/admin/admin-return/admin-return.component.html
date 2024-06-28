@@ -1,0 +1,4 @@
+<ng-container *ngIf="vm$ | async as vm">
+  <app-return-table [role]="role" [order]="vm.order">
+  </app-return-table>
+</ng-container>

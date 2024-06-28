@@ -1,0 +1,17 @@
+<div class="card">
+  <div class="card-body">
+    <h5><strong>Payment</strong></h5>
+    <p><strong>Payment Method:</strong> {{order.payment.method}}</p>
+    <p><strong>Account ending in:</strong>
+      ********{{order.payment.account | slice:-4}}</p>
+    <div *ngIf="!order.isPaid" class="card border-danger mb-3">
+      <div class="card-header">Order is not paid yet</div>
+    </div>
+    <div *ngIf="order.isPaid" class="card border-success mb-3">
+      <div class="card-header">Order has been paid on {{order.paidAt | date:'medium'}}</div>
+    </div>
+    <div *ngIf="order.invoiceSent" class="card border-success mb-3">
+      <div class="card-header">Invoice has been sent on {{order.invoiceAt | date:'medium'}}</div>
+    </div>
+  </div>
+</div>

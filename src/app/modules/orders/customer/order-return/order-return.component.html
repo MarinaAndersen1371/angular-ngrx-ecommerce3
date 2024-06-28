@@ -1,0 +1,12 @@
+<ng-container *ngIf="vm$|async as vm">
+  <ng-container *ngIf="vmUser$ | async as vmUser">
+    <ng-container *ngIf="vm?.order?.user?._id === vmUser?._id; else showMessageBlock">
+      <app-return-table [role]="role" [order]="vm.order">
+      </app-return-table>
+    </ng-container>
+
+    <ng-template #showMessageBlock>
+      <app-not-authorized></app-not-authorized>
+    </ng-template>
+  </ng-container>
+</ng-container>

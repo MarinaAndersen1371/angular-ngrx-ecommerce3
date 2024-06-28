@@ -1,0 +1,62 @@
+<ng-container>
+  <h3 class="mb-5"><strong>Delivery Note to Order {{order._id}}</strong></h3>
+  <div class="row mb-5">
+
+    <div class="col-md-5">
+      <app-shipping-address *ngIf="order?.shippingAddress" [order]="order">
+      </app-shipping-address>
+    </div>
+
+    <div class="col-md-1"></div>
+
+    <div class="col-md-5">
+      <div class="card my-4">
+        <div class="card-body">
+          <h5 class="card-title mb-4 pb-4"><strong>Delivery Details</strong></h5>
+          <p>
+            <strong>Type of Shipping: </strong>
+            <ng-container [ngSwitch]="order.shippingPrice">
+              <span *ngSwitchCase="5" class="shipping">Standard</span>
+              <span *ngSwitchCase="10" class="shipping">Fastest</span>
+              <span *ngSwitchCase="0" class="shipping">Free</span>
+            </ng-container>
+          </p>
+
+          <p><strong>Shipping Fee: </strong> <span class="price">{{order.shippingPrice | currency:
+              'EUR' }} </span> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-md-1"></div>
+
+    <div class="col-md-10">
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Ordered Product</th>
+            <th>Quantity</th>
+            <th>Gift Package</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item  of order.orderItems">
+            <td><a [routerLink]="['/products/product', item._id]"><span class="cart-list-image"><img
+                    [src]="item.imageUrl" title="View Product"></span></a></td>
+            <td>{{item.name}}</td>
+            <td>{{item.quantity}}</td>
+            <td>
+              <fa-icon [icon]="item.gift === 5 ? faCheck : faTimes"
+                [ngClass]="{'text-success': item.gift === 5, 'text-danger': item.gift === 0}"></fa-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-1"></div>
+  </div>
+</ng-container>

@@ -1,0 +1,43 @@
+<table class="table table-hover text-center">
+  <thead>
+    <tr>
+      <th class="device">Device</th>
+      <th>Quantity</th>
+      <th class="cover">Cover Description</th>
+      <th>Price/Item</th>
+      <th>Total</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item  of order.orderItems">
+      <ng-container *ngIf="item.extra1 + item.extra2 > 0">
+        <td><a [routerLink]="['/products/product', item._id]" title="View Product">{{item.name}}</a></td>
+        <td>{{item.quantity}}</td>
+        <td>
+          <span *ngIf="item.extra1 > 0">
+            <p><strong>1-year Extra Device Protection:</strong></p>
+            <p>This cover protects your product from accident mechanical and electrical breakdowns damage from
+              the purchase (from the day you receive your product) for 1 year.</p>
+          </span>
+          <span *ngIf="item.extra2 > 0">
+            <p><strong>2-year Extra Device Protection:</strong></p>
+            <p>Up to 2 years of coverage against accidental damage (from the day you receive your product).</p>
+          </span>
+        </td>
+        <td>
+          <span *ngIf="item.extra1 > 0">€4.00</span>
+          <span *ngIf="item.extra2 > 0">€5.00</span>
+        </td>
+        <td>{{
+          (item.extra1 + item.extra2) * item.quantity | currency: 'EUR'}}
+        </td>
+        <td>
+          <span *ngIf="!order.isExtra">Not Active</span>
+          <span *ngIf="order.isExtra" class="text-success">Active from
+            {{order.deliveredAt | date}}</span>
+        </td>
+      </ng-container>
+    </tr>
+  </tbody>
+</table>

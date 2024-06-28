@@ -1,0 +1,56 @@
+<table class="table table-hover text-center my-5">
+  <thead>
+    <tr>
+      <th>Order ID</th>
+      <th>Date</th>
+      <th>Customer Name</th>
+      <th>Total Price</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngFor="let order of orders">
+      <ng-container *ngIf="order.extraPrice > 0">
+        <tr>
+          <td>{{order._id}} </td>
+          <td>{{order.createdAt | date:'medium'}}</td>
+          <td>{{order.user.firstName}} {{order.user.lastName}}</td>
+          <td [ngClass]="{ 'text-primary': order.isPaid }">{{order.extraPrice | currency: 'EUR'}}
+          </td>
+          <td>
+            <span *ngIf="!order.isExtra" class="text-warning"> Not active</span>
+            <span *ngIf="order.isExtra" class="text-success">Active from
+              {{order.deliveredAt | date}}</span>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-info" title="View Details"
+                [routerLink]="getDeviceProtectionLink(order._id)">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+    </ng-container>
+  </tbody>
+</table>
+
+<table class="table table-hover text-center my-5" *ngIf="statistics && (role === 'admin' || role === 'manager')">
+  <thead>
+    <tr>
+      <th>Total Cards/Qty</th>
+      <th>Total Cards Price/Amount</th>
+      <th>Status Active/Qty</th>
+      <th>Status Not Active/Qty</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{statistics.qtyExtra}} </td>
+      <td>{{statistics.totalExtraPrice | currency: 'EUR'}} </td>
+      <td>{{statistics.qtyExtraActive}} </td>
+      <td>{{statistics.qtyExtraNotActive}} </td>
+    </tr>
+  </tbody>
+</table>

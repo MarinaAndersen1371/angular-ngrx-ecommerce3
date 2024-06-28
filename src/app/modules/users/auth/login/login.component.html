@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="login-form mt-5 col-md-6 offset-2">
+    <h3>Sign In</h3>
+    <p class="text-xs-center">
+      <a [routerLink]="['/users/register']">Do not have an account?</a>
+    </p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group my-3">
+        <label for="email">Email Address:</label>
+        <input type="email" formControlName="email" id="email" class="form-control" placeholder="Enter Email Address"
+          required>
+        <div
+          *ngIf="loginForm.get('email')?.dirty && loginForm.get('email')?.touched && loginForm.get('email')?.errors?.required"
+          class="text-danger">
+          Email is required.
+        </div>
+        <div
+          *ngIf="loginForm.get('email')?.dirty && loginForm.get('email')?.touched && loginForm.get('email')?.errors?.email"
+          class="text-danger">
+          Please enter a valid email address.
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label for="password">Password:</label>
+        <input type="password" formControlName="password" class="form-control" id="password" required
+          placeholder="Enter Password">
+        <div
+          *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.touched && loginForm.get('password')?.errors?.required"
+          class="text-danger">
+          Password is required.
+        </div>
+      </div>
+
+      <button class="btn btn-secondary pull-xs-right btn-lg my-4" type="submit"
+        [disabled]="!loginForm.valid">Login</button>
+    </form>
+  </div>
+</div>
